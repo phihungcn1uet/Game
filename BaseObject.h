@@ -6,6 +6,11 @@ class BaseObject {
 public:
 	BaseObject();
 	~BaseObject();
+	void SetRect(const int& x, const int& y) {
+		rect_.x = x; rect_.y = y;
+	}
+	SDL_Rect GetRect() const {return rect_;}
+    SDL_Texture* Getobject() const {return mTexture; }
 	bool loadFromFile(std::string path,SDL_Renderer *screen);
 	void free();
 
@@ -16,12 +21,11 @@ public:
 	void setAlpha(Uint8 alpha);
 
 	void render(SDL_Renderer* des, const SDL_Rect* clip,int x,int y);
-
+	
 
 private:
-	SDL_Texture *mTexture;
-	int mWidth;
-	int mHeight;
+	SDL_Texture* mTexture;
+	SDL_Rect rect_;
 };
 
 

@@ -4,8 +4,7 @@
 
 BaseObject::BaseObject() {
 	mTexture = NULL;
-	mWidth = 0;
-	mHeight = 0;
+	rect_ = { 0,0,0,0 };
 }
  
 BaseObject :: ~BaseObject() {
@@ -32,8 +31,8 @@ bool BaseObject :: loadFromFile(std::string path,SDL_Renderer *screen) {
 		}
 		else
 		{
-			mWidth = loadedSurface->w;
-			mHeight = loadedSurface->h;
+			rect_.w = loadedSurface->w;
+			rect_.h = loadedSurface->h;
 		}
 
 		SDL_FreeSurface(loadedSurface);
@@ -48,8 +47,8 @@ void BaseObject :: free() {
 	{
 		SDL_DestroyTexture(mTexture);
 		mTexture = NULL;
-		mWidth = 0;
-		mHeight = 0;
+		rect_.x = 0;
+		rect_.y = 0;
 	}
 }
 
@@ -71,9 +70,8 @@ void BaseObject::setAlpha(Uint8 alpha)
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
-void BaseObject::render(SDL_Renderer* des, const SDL_Rect* clip,int x,int y) {
+void BaseObject::render(SDL_Renderer* des, const SDL_Rect* clip,int x, int y) {
 
-	SDL_Rect howrender = { x,y,mWidth,mHeight };
-
+	SDL_Rect howrender = { x,y,rect_.w,rect_.h };
 	SDL_RenderCopy(des, mTexture, clip, &howrender);
 }

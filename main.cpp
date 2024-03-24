@@ -1,11 +1,9 @@
 
 #include "LibFile.h"
-
+static SDL_Window* gWindow = NULL;
+static SDL_Renderer* gRenderer = NULL;
 BaseObject background;
 Figure figure;
-
-SDL_Rect wall0 = {0,576,1280,64};
-SDL_Rect wall1 = {128,512,128,64};
 bool init()
 {
 	//Initialization flag
@@ -73,7 +71,7 @@ void close()
 	SDL_Quit();
 }
 bool loadbackground() {
-	bool res = background.loadFromFile("img/hello1.jpg",gRenderer);
+	bool res = background.loadFromFile("img/hello01.jpg",gRenderer);
 	return res;
 }
 
@@ -82,7 +80,10 @@ bool loadfigure() {
 	return res;
 }
 
-
+bool loadbullet() {
+	bool res = figure.loadFromFileBullet("img/bullet.png", gRenderer);
+	return res;
+}
 int main(int argc, char* args[])
 {
 	//Start up SDL and create window
@@ -92,21 +93,22 @@ int main(int argc, char* args[])
 	}
 	else
 	{
-		if (loadbackground()==false) {
+		if (!loadbackground()) {
 			std::cout << "Can't load background" << std::endl;
 		}
-		if (loadfigure() == false) {
-			std::cout << "Can't load figure" << std::endl;
+		if (!loadfigure()) {
+			std::cout << "Can't load figure" << SDL_GetError() <<std::endl;
 		}
-		//Map
-		GameMap Map;
+		if (!loadbullet()) {
+			std::cout << "Can't load bullet" << std::endl;
+		}
 			//Main loop flag
 			bool quit = false;
 
 			//Event handler
 			SDL_Event e;
-			SDL_Rect camera = { 0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 };
 			//While application is running
+			
 			while (!quit)
 			{
 				//Handle events on queue
@@ -117,23 +119,13 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
-					figure.handleEvent(e);
+					figure.handleEvent(e,gRenderer);
 				}
-				
 				//load background
-				background.render(gRenderer, NULL, 0, 0);
-				//load figure
-				Map.loadFileMap("map/newmap.txt");
-				Map.DrawMap(gRenderer);
+				background.render(gRenderer, NULL,0,0);
 				figure.move(gRenderer);
-				//Clear screen
-				//figure.ColliisonWall(wall0);
-				//figure.ColliisonWall(wall1);
-				figure.Gravity();
-				figure.checkarround();
-					//figure.setCamera(camera);
+				figure.movebullet(gRenderer);
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				//Update screen
 				SDL_RenderPresent(gRenderer);
 				SDL_RenderClear(gRenderer);
 			}

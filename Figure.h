@@ -4,6 +4,7 @@
 #define MAX_MAP_Y 10
 #define MAX_MAP_X 20
 #include "LibFile.h"
+
 struct character {
 	int velocityX;
 	int velocityY;
@@ -11,28 +12,32 @@ struct character {
 	int y_pos;
 	SDL_Rect mBox;
 };
+
+struct Bullet {
+	int x, y;
+	int speed;
+
+	Bullet(int startX, int startY, int bulletSpeed) : x(startX), y(startY), speed(bulletSpeed) {}
+};
+
 class Figure{
 public:
-	static const int FIGURE_WIDTH = 64;
-	static const int FIGURE_HEIGHT = 64;
-	static const int FIGURE_VEL = 6;
+	static const int FIGURE_VEL = 16;
 	Figure();
 	~Figure();
 	bool loadFromFile(std::string path, SDL_Renderer* screen);
-	void handleEvent(SDL_Event& e);
-	bool checkCollision(SDL_Rect rectA, SDL_Rect rectB);
+	bool loadFromFileBullet(std::string path, SDL_Renderer* screen);
+	void handleEvent(SDL_Event& e,SDL_Renderer * screen);
 	void move(SDL_Renderer* screen);
-	void ColliisonWall(SDL_Rect& wall);
-	void Gravity();
-	void setCamera(SDL_Rect& camera);
-	void checkarround();
+	void movebullet(SDL_Renderer* screen);
 private:
 	character character;
 	SDL_Texture* mTexture;
+	SDL_Texture* mTextureBullet;
+	SDL_Rect rect_;
 	int x_pos;
-    int y_pos;
-	int status;
-	int numcheck[MAX_MAP_Y][MAX_MAP_X];
+	int y_pos;
+	std::vector<Bullet> bullets;
 };
 
 

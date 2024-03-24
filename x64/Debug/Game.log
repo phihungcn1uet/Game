@@ -1,7 +1,2 @@
-﻿  BaseObject.cpp
-  Figure.cpp
-  LibFile.cpp
-  Map.cpp
-  main.cpp
-  Generating Code...
+﻿  Figure.cpp
   Game.vcxproj -> D:\game\x64\Debug\Game.exe
