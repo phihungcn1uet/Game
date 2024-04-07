@@ -22,22 +22,26 @@ struct Bullet {
 
 class Figure{
 public:
-	static const int FIGURE_VEL = 16;
+	const int FIGURE_VEL = 16;
 	Figure();
 	~Figure();
+	// Nhan vat
 	bool loadFromFile(std::string path, SDL_Renderer* screen);
-	bool loadFromFileBullet(std::string path, SDL_Renderer* screen);
 	void handleEvent(SDL_Event& e,SDL_Renderer * screen);
-	void move(SDL_Renderer* screen);
+	// Dan ban
+	bool loadFromFileBullet(std::string path, SDL_Renderer* screen);
+	void move(SDL_Renderer* screen,bool &quit);
 	void movebullet(SDL_Renderer* screen);
-private:
-	character character;
-	SDL_Texture* mTexture;
-	SDL_Texture* mTextureBullet;
-	SDL_Rect rect_;
-	int x_pos;
-	int y_pos;
 	std::vector<Bullet> bullets;
+	character character;
+	//free
+	void free();
+private:
+	//Nhan vat
+	SDL_Texture* mTexture;
+	//Dan ban
+	SDL_Texture* mTextureBullet;
+	SDL_Rect rectbullet;
 };
 
 

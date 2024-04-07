@@ -2,16 +2,14 @@
 Figure :: Figure() {
 	character.velocityX = 0;
 	character.velocityY = 0;
-	x_pos = 0;
-	y_pos = 0;
 	mTexture = NULL;
 	mTextureBullet = NULL;
-	rect_ = { 0,0,0,0 };
-	character.mBox = { 0,0,FIGURE_WIDTH,FIGURE_HEIGHT };
+	character.mBox = { 0,0,0,0 };
+	rectbullet = { 0,0,0,0 };
 }
 
 Figure :: ~Figure() {
-
+	free();
 }
 
 bool Figure::loadFromFile(std::string path, SDL_Renderer* screen) {
@@ -42,35 +40,28 @@ bool Figure::loadFromFile(std::string path, SDL_Renderer* screen) {
 	return mTexture != NULL;
 }
 
-void Figure::move(SDL_Renderer *screen) {
-	x_pos += character.velocityX;
-	y_pos += character.velocityY;
-	
-	character.mBox.x = x_pos;
-	character.mBox.y = y_pos;
-	toadoX = x_pos;
-	toadoY = y_pos;
-	//std::cout << toadoX << "-" << toadoY << "-" << character.mBox.w << "-" << character.mBox.h << std::endl;
-	if (x_pos < 0) {
-		x_pos = 0;
+void Figure::move(SDL_Renderer* screen,bool &quit) {
+	character.mBox.x += character.velocityX;
+	character.mBox.y += character.velocityY;
+	if (character.mBox.x < 0) {
+		character.mBox.x = 0;
 	}
-	else if (x_pos + FIGURE_WIDTH > SCREEN_WIDTH) {
-		x_pos = SCREEN_WIDTH - FIGURE_WIDTH;
+	else if (character.mBox.x + FIGURE_WIDTH > SCREEN_WIDTH) {
+		character.mBox.x = SCREEN_WIDTH - FIGURE_WIDTH;
 	}
-	if (y_pos < 0) {
-		y_pos = 0;
+	if (character.mBox.y < 0) {
+		character.mBox.y = 0;
 	}
-	else if (y_pos + FIGURE_HEIGHT > SCREEN_HEIGHT) {
-		y_pos = SCREEN_HEIGHT - FIGURE_HEIGHT;
+	else if (character.mBox.y + FIGURE_HEIGHT > SCREEN_HEIGHT) {
+		character.mBox.y = SCREEN_HEIGHT - FIGURE_HEIGHT;
 	}
 	SDL_RenderCopy(screen, mTexture, NULL, &character.mBox);
+
 }
 
 void Figure::handleEvent(SDL_Event& e,SDL_Renderer *screen) {
-	//If a key was pressed
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 	{
-		//Adjust the velocity
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_w: character.velocityY -= FIGURE_VEL; break;
@@ -78,13 +69,13 @@ void Figure::handleEvent(SDL_Event& e,SDL_Renderer *screen) {
 		case SDLK_a: character.velocityX -= FIGURE_VEL; break;
 		case SDLK_d: character.velocityX += FIGURE_VEL; break;
 		case SDLK_e:
-		bullets.push_back(Bullet(character.mBox.x + character.mBox.w, character.mBox.y + FIGURE_HEIGHT/2, 1));
+		if(bullets.size()<6)
+		bullets.push_back(Bullet(character.mBox.x + character.mBox.w, character.mBox.y +FIGURE_WIDTH/2, 1));
 		break;
 		}
 	}
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
 	{
-		//Adjust the velocity
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_w: character.velocityY += FIGURE_VEL; break;
@@ -96,6 +87,7 @@ void Figure::handleEvent(SDL_Event& e,SDL_Renderer *screen) {
 }
 
 bool Figure::loadFromFileBullet(std::string path, SDL_Renderer* screen) {
+	free();
 	SDL_Texture* newTexture = NULL;
 
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
@@ -114,8 +106,8 @@ bool Figure::loadFromFileBullet(std::string path, SDL_Renderer* screen) {
 		}
 		else
 		{
-			rect_.w = loadedSurface->w;
-			rect_.h = loadedSurface->h;
+			rectbullet.w = loadedSurface->w;
+			rectbullet.h = loadedSurface->h;
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
@@ -125,12 +117,19 @@ bool Figure::loadFromFileBullet(std::string path, SDL_Renderer* screen) {
 void Figure::movebullet(SDL_Renderer* screen) {
 	for (int i = 0; i < bullets.size(); i++) {
 		bullets[i].x += 6;
-		SDL_Rect rectbullet = { bullets[i].x, bullets[i].y-FIGURE_HEIGHT/2, FIGURE_WIDTH, FIGURE_HEIGHT };
+		rectbullet.x = bullets[i].x;
+		rectbullet.y = bullets[i].y;
 		SDL_RenderCopy(screen, mTextureBullet, NULL, &rectbullet);
 		if (bullets[i].x > SCREEN_WIDTH - 30) {
 			bullets.erase(bullets.begin() + i);
 			i--;
 		}
+	}
+}
+void Figure::free() {
+	if (mTextureBullet != NULL) {
+		SDL_DestroyTexture(mTextureBullet);
+		mTextureBullet = NULL;
 	}
 }
 

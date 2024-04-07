@@ -4,6 +4,7 @@ static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gRenderer = NULL;
 BaseObject background;
 Figure figure;
+Enemy enemy;
 bool init()
 {
 	//Initialization flag
@@ -76,16 +77,22 @@ bool loadbackground() {
 }
 
 bool loadfigure() {
-	bool res = figure.loadFromFile("img/nv.png", gRenderer);
+	bool res = figure.loadFromFile("img/maybay.png", gRenderer);
 	return res;
 }
 
 bool loadbullet() {
-	bool res = figure.loadFromFileBullet("img/bullet.png", gRenderer);
+	bool res = figure.loadFromFileBullet("img/bullet1.png", gRenderer);
+	return res;
+}
+
+bool loadenemy() {
+	bool res = enemy.loadFromFileEnemy("img/nv.png", gRenderer);
 	return res;
 }
 int main(int argc, char* args[])
 {
+	srand(time(0));
 	//Start up SDL and create window
 	if (!init())
 	{
@@ -102,6 +109,10 @@ int main(int argc, char* args[])
 		if (!loadbullet()) {
 			std::cout << "Can't load bullet" << std::endl;
 		}
+		if (!loadenemy()) {
+			std::cout << "Can't load enemy" << std::endl;
+		}
+		int scrollingOffset =0 ;
 			//Main loop flag
 			bool quit = false;
 
@@ -111,6 +122,7 @@ int main(int argc, char* args[])
 			
 			while (!quit)
 			{
+				
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -122,8 +134,19 @@ int main(int argc, char* args[])
 					figure.handleEvent(e,gRenderer);
 				}
 				//load background
-				background.render(gRenderer, NULL,0,0);
-				figure.move(gRenderer);
+				--scrollingOffset;
+				if (scrollingOffset < -1280)
+				{
+					scrollingOffset = 0;
+				}
+				//load background
+				background.render(gRenderer, NULL, scrollingOffset,0);
+				background.render(gRenderer, NULL, scrollingOffset+1280, 0);
+				// di chuyen
+				figure.move(gRenderer,quit);
+				// xu ly dan
+				enemy.random();
+				enemy.enemymove(gRenderer,figure.bullets,quit,figure.character);
 				figure.movebullet(gRenderer);
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderPresent(gRenderer);
