@@ -3,6 +3,7 @@ Enemy :: Enemy() {
 	eBox.x = 1280;
 	eBox.y = 64;
 	mTextureEnemy = NULL;
+	eBox = { 0,0,0,0 };
 }
 Enemy :: ~Enemy() {
 	free();
@@ -36,47 +37,53 @@ bool Enemy::loadFromFileEnemy(std::string path, SDL_Renderer* screen) {
 	return mTextureEnemy != NULL;
 }
 
-void Enemy::enemymove(SDL_Renderer* screen,std :: vector <Bullet>& bullets,bool &quit, character &character) {
-	//std::cout << enemys.size() << std::endl;
+void Enemy::enemymove(SDL_Renderer* screen,std :: vector <Bullet>& bullets,bool &quit, character &character, const bool& check) {
 	for (int i = 0; i < enemys.size(); i++) {
 		if (i == 0) {
-			enemys[i].x -= 6;
-			eBox = { enemys[i].x, enemys[i].y , FIGURE_WIDTH, FIGURE_HEIGHT };
+			enemys[i].x -= enemys[i].speed;
+			eBox.x = enemys[i].x;
+			eBox.y = enemys[i].y;
 			SDL_RenderCopy(screen, mTextureEnemy, NULL, &eBox);
+			
 			if (enemys[i].x < 0) {
 				enemys.erase(enemys.begin() + i);
-				i--;
+				//i--;
 			}
 		}
 		else if (i >= 1 && enemys[i - 1].x < 1000) {
-			enemys[i].x -= 6;
-			eBox = { enemys[i].x, enemys[i].y , FIGURE_WIDTH, FIGURE_HEIGHT };
+			enemys[i].x -= enemys[i].speed;
+			eBox.x = enemys[i].x;
+			eBox.y = enemys[i].y;
 			SDL_RenderCopy(screen, mTextureEnemy, NULL, &eBox);
 			if (enemys[i].x < 0) {
 				enemys.erase(enemys.begin() + i);
-				i--;
+				//i--;
 			}
 			if (bullets.size() != 0) {
 				for (int j = 0; j < bullets.size(); j++) {
 					SDL_Rect a = { bullets[j].x,bullets[j].y,16,16 };
 					SDL_Rect b = { enemys[i].x,enemys[i].y,FIGURE_WIDTH,FIGURE_HEIGHT };
 					SDL_Rect c = { enemys[i - 1].x,enemys[i - 1].y,FIGURE_WIDTH,FIGURE_HEIGHT };
-					if (checkCollision(a,b)) {
-						enemys.erase(enemys.begin() + i);
-						bullets.erase(bullets.begin() + j);
-					}
-					else if (checkCollision(a,c)) {
-						enemys.erase(enemys.begin() + i - 1);
-						bullets.erase(bullets.begin() + j);
-					}
+						if (checkCollision(a, b)) {
+							enemys.erase(enemys.begin() + i);
+							bullets.erase(bullets.begin() + j);
+						}
+						else if (checkCollision(a, c)) {
+							enemys.erase(enemys.begin() + i - 1);
+							bullets.erase(bullets.begin() + j);
+
+						}
 				}
 			}
 		}
+		
 	}
 	for (int i = 0; i < enemys.size(); i++) {
 		SDL_Rect a = { enemys[i].x,enemys[i].y,FIGURE_WIDTH,FIGURE_HEIGHT };
-		if (checkCollision(character.mBox, a)) {
-			quit = true;
+		if (check) {
+			if (checkCollision(character.mBox, a)) {
+				quit = true;
+			}
 		}
 	}
 }
@@ -86,8 +93,10 @@ void Enemy::enemymove(SDL_Renderer* screen,std :: vector <Bullet>& bullets,bool 
 void Enemy::random() {
 	int x_pos_enemy = 1280;
 	int y_pos_enemy = (rand() % 640);
-	enemys.push_back(numEnemy(x_pos_enemy, y_pos_enemy, 2));
+	int speed = rand() % (8-4+1) + 4;
+	enemys.push_back(numEnemy(x_pos_enemy, y_pos_enemy, speed));
 	if (enemys.size() > 10) enemys.erase(enemys.begin() + 10);
+	
 }
 
 bool Enemy::checkCollision(SDL_Rect a, SDL_Rect b)

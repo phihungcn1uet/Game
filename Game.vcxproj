@@ -134,16 +134,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Boom.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="LibFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Rocket.cpp" />
+    <ClCompile Include="Special.cpp" />
+    <ClCompile Include="time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Boom.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="LibFile.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="Rocket.h" />
+    <ClInclude Include="Special.h" />
+    <ClInclude Include="time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

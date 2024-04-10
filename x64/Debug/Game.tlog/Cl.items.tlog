@@ -1,5 +1,9 @@
 D:\game\Game\BaseObject.cpp;D:\game\Game\x64\Debug\BaseObject.obj
+D:\game\Game\Boom.cpp;D:\game\Game\x64\Debug\Boom.obj
 D:\game\Game\Figure.cpp;D:\game\Game\x64\Debug\Figure.obj
 D:\game\Game\LibFile.cpp;D:\game\Game\x64\Debug\LibFile.obj
 D:\game\Game\main.cpp;D:\game\Game\x64\Debug\main.obj
 D:\game\Game\enemy.cpp;D:\game\Game\x64\Debug\enemy.obj
+D:\game\Game\Rocket.cpp;D:\game\Game\x64\Debug\Rocket.obj
+D:\game\Game\Special.cpp;D:\game\Game\x64\Debug\Special.obj
+D:\game\Game\time.cpp;D:\game\Game\x64\Debug\time.obj

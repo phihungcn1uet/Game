@@ -69,7 +69,7 @@ void Figure::handleEvent(SDL_Event& e,SDL_Renderer *screen) {
 		case SDLK_a: character.velocityX -= FIGURE_VEL; break;
 		case SDLK_d: character.velocityX += FIGURE_VEL; break;
 		case SDLK_e:
-		if(bullets.size()<6)
+		if(bullets.size()<600)
 		bullets.push_back(Bullet(character.mBox.x + character.mBox.w, character.mBox.y +FIGURE_WIDTH/2, 1));
 		break;
 		}

@@ -5,6 +5,9 @@ static SDL_Renderer* gRenderer = NULL;
 BaseObject background;
 Figure figure;
 Enemy enemy;
+Rocket rocket;
+Boom boom;
+Special special;
 bool init()
 {
 	//Initialization flag
@@ -90,8 +93,21 @@ bool loadenemy() {
 	bool res = enemy.loadFromFileEnemy("img/nv.png", gRenderer);
 	return res;
 }
+bool loadrocket() {
+	bool res = rocket.loadFromFileRocket("img/rocket.png", gRenderer);
+	return res;
+}
+bool loadboom() {
+	bool res =boom.loadFromFileBoom("img/boom.png", gRenderer);
+	return res;
+}
+bool loadspecial() {
+	bool res = special.loadFromFile("img/luckybox.png", gRenderer);
+	return res;
+}
 int main(int argc, char* args[])
 {
+	ImpTimer fps_timer;
 	srand(time(0));
 	//Start up SDL and create window
 	if (!init())
@@ -104,7 +120,7 @@ int main(int argc, char* args[])
 			std::cout << "Can't load background" << std::endl;
 		}
 		if (!loadfigure()) {
-			std::cout << "Can't load figure" << SDL_GetError() <<std::endl;
+			std::cout << "Can't load figure" << SDL_GetError() << std::endl;
 		}
 		if (!loadbullet()) {
 			std::cout << "Can't load bullet" << std::endl;
@@ -112,17 +128,26 @@ int main(int argc, char* args[])
 		if (!loadenemy()) {
 			std::cout << "Can't load enemy" << std::endl;
 		}
+		if (!loadrocket()) {
+			std::cout << "Can't load rocket" << std::endl;
+		}
+		if (!loadboom()) {
+		std::cout << "Can't load boom" << std::endl;
+	    }
+		if (!loadspecial()) {
+			std::cout << "Can't load special" << std::endl;
+		}
 		int scrollingOffset =0 ;
 			//Main loop flag
 			bool quit = false;
-
+			bool check = true;
 			//Event handler
 			SDL_Event e;
 			//While application is running
 			
 			while (!quit)
 			{
-				
+				fps_timer.start();
 				//Handle events on queue
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -146,10 +171,26 @@ int main(int argc, char* args[])
 				figure.move(gRenderer,quit);
 				// xu ly dan
 				enemy.random();
-				enemy.enemymove(gRenderer,figure.bullets,quit,figure.character);
+				enemy.enemymove(gRenderer,figure.bullets,quit,figure.character,check);
 				figure.movebullet(gRenderer);
+				int x = SDL_GetTicks64();
+				rocket.random(x);
+				rocket.rocketmove(x, gRenderer,figure.character,quit,check);
+				boom.random(x);
+				boom.boommove(x, gRenderer, figure.character, quit,check);
+				special.randomspecial(x);
+				special.specialappearance(gRenderer, figure.character,check,x);
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderPresent(gRenderer);
+				int real_imp_time = fps_timer.get_ticks();
+				int time_one_frame = 1000 / FRAME_PER_SECOND; // tinh theo mili giay
+
+				if (real_imp_time < time_one_frame) {
+					int delay_time = time_one_frame - real_imp_time;
+					if (delay_time >= 0) {
+						SDL_Delay(delay_time);
+					}
+				}
 				SDL_RenderClear(gRenderer);
 			}
 		}

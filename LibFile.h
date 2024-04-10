@@ -13,7 +13,12 @@
 #include "BaseObject.h"
 #include "Figure.h"
 #include "enemy.h"
+#include"time.h"
+#include"Rocket.h"
+#include "Boom.h"
+#include"Special.h"
 //Screen dimension constants
+const int FRAME_PER_SECOND = 60;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT =640;
 
