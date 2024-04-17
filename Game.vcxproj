@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>D:\SDL\Visual\SDL2_image-2.8.2\include;D:\SDL\Visual\SDL2-2.30.1\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\SDL\Visual\SDL2_image-2.8.2\lib\x64;D:\SDL\Visual\SDL2-2.30.1\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\SDL\Visual\SDL2_ttf-2.22.0\include;D:\SDL\Visual\SDL2_mixer-2.8.0\include;D:\SDL\Visual\SDL2_image-2.8.2\include;D:\SDL\Visual\SDL2-2.30.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\SDL\Visual\SDL2_mixer-2.8.0\lib\x64;D:\SDL\Visual\SDL2_ttf-2.22.0\lib\x64;D:\SDL\Visual\SDL2_image-2.8.2\lib\x64;D:\SDL\Visual\SDL2-2.30.1\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2_mixer.lib;SDL2_ttf.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,10 +137,13 @@
     <ClCompile Include="Boom.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="LibFile.cpp" />
+    <ClCompile Include="Life.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Rocket.cpp" />
     <ClCompile Include="Special.cpp" />
+    <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,8 +152,11 @@
     <ClInclude Include="Figure.h" />
     <ClInclude Include="LibFile.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="Life.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Rocket.h" />
     <ClInclude Include="Special.h" />
+    <ClInclude Include="TextObject.h" />
     <ClInclude Include="time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

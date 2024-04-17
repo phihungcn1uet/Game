@@ -10,7 +10,7 @@ public:
 	Enemy();
 	~Enemy();
 	bool loadFromFileEnemy(std::string path, SDL_Renderer* screen);
-	void enemymove(SDL_Renderer* screen,std::vector <Bullet>& bullets,bool &quit,character &character,const bool& check);
+	void enemymove(SDL_Renderer* screen,std::vector <Bullet>& bullets,bool & death,character &character,const bool& collision);
 	void random();
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 	void free();

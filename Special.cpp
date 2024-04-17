@@ -4,6 +4,7 @@ Special::Special() {
 	special = NULL;
 	sBox = { 0,0,0,0 };
 	time1 = 0;
+	specialnumlife = 0;
 }
 
 Special::~Special() {
@@ -60,19 +61,37 @@ void Special::randomspecial(const int &a) {
     }
 	if (specialpos1.size() > 1) specialpos1.erase(specialpos1.begin() + 1);
 }
-void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool& check, const int&a) {
-	for (int i = 0; i < specialpos1.size(); i++) {
-		sBox.x = specialpos1[i].x;
-		sBox.y = specialpos1[i].y;
-		SDL_RenderCopy(screen, special, NULL, &sBox);
-		if (checkCollision(chacracter.mBox, sBox)) {
-			check = false;
-			specialpos1.erase(specialpos1.begin() + i);
-			time1 = a/1000;
-			std::cout << time1 << std::endl;
+void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool& collision,bool &bullettype, const int &a,Figure &figure) {
+	int x = rand() % 3;
+		for (int i = 0; i < specialpos1.size(); i++) {
+			sBox.x = specialpos1[i].x;
+			sBox.y = specialpos1[i].y;
+			SDL_RenderCopy(screen, special, NULL, &sBox);
+			if (checkCollision(chacracter.mBox, sBox)) {
+				if (x == 0) {
+					figure.loadFromFile("img/shieldplane.png", screen);
+					collision = false;
+					specialpos1.erase(specialpos1.begin() + i);
+					time1 = a / 1000;
+					//std::cout << time1 << std::endl;
+				}
+				else if (x == 1) {
+					bullettype = false;
+					specialpos1.erase(specialpos1.begin() + i);
+					time1 = a / 1000;
+				}
+				else if (x == 2) {
+					specialnumlife = 1;
+					specialpos1.erase(specialpos1.begin() + i);
+					time1 = a / 1000;
+				}
+			}
 		}
-	}
-	if (a/1000 - time1 == 5) {
-		check = true;
-	}
+		if (a / 1000 - time1 == 5 && x==0) {
+			collision = true;
+			figure.loadFromFile("img/plane.png", screen);
+		}
+		if (a / 1000 - time1 == 5 && x==1) {
+			bullettype = true;
+		}
 }

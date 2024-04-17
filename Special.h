@@ -11,7 +11,8 @@ public:
 	bool loadFromFile(std::string path, SDL_Renderer* screen);
 	void free();
 	void randomspecial(const int &a);
-	void specialappearance(SDL_Renderer* screen, character& chacracter,bool&check, const int& a);
+	void specialappearance(SDL_Renderer* screen, character& chacracter,bool& collision, bool& bullettype, const int& a, Figure &sfigure);
+	int specialnumlife;
 private:
 	SDL_Texture* special;
 	SDL_Rect sBox;

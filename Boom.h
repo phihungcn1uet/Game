@@ -10,7 +10,7 @@ public:
 	~Boom();
 	bool loadFromFileBoom(std::string path, SDL_Renderer* screen);
 	void free();
-	void boommove(int& a, SDL_Renderer* screen, character& character, bool& quit,  const bool& check);
+	void boommove(SDL_Renderer* screen, character& character, bool& death, const bool& collision, const bool& bullettype, std::vector <Bullet>& bullets);
 	void random(const int& a);
 private:
 	SDL_Texture* bTexture;

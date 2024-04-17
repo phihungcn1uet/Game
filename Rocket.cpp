@@ -47,8 +47,11 @@ void Rocket::free() {
 		rBox.y = 0;
 	}
 }
-void Rocket :: rocketmove(int& a,SDL_Renderer *screen,character &character,bool &quit,const bool&check) {
+void Rocket :: rocketmove(SDL_Renderer *screen,character &character,bool & death,const bool& collision,const bool&bullettype, std::vector <Bullet>& bullets) {
 		for (int i = 0; i < sRocket1.size(); i++) {
+			soundrocket = Mix_LoadWAV("soundrocket.wav");
+			Mix_PlayChannel(-1, soundrocket, 0);
+
 			sRocket1[i].x -= Rocketvel;
 			rBox.x = sRocket1[i].x;
 			rBox.y = sRocket1[i].y;
@@ -56,20 +59,30 @@ void Rocket :: rocketmove(int& a,SDL_Renderer *screen,character &character,bool 
 			if (sRocket1[i].x < 0) {
 				sRocket1.erase(sRocket1.begin() + i);
 			}
-			if (check) {
+			if (collision) {
 				if (checkCollision(character.mBox, rBox)) {
-					quit = true;
+					death = true;
+				}
+			}
+			if (!bullettype) {
+				for (int j = 0; j < bullets.size(); j++) {
+					//std :: cout << bullets.size() << std::endl;
+					SDL_Rect a = { bullets[j].x,bullets[j].y,128,64 };
+					if (checkCollision(a, rBox)) {
+						sRocket1.erase(sRocket1.begin() + i);
+						bullets.erase(bullets.begin() + j);
+					}
 				}
 			}
 		}
 }
 
-void Rocket::random(const int &a){
+void Rocket::random(const int& a) {
 	//std::cout << a/1000 << std::endl;
 	int time = a / 1000;
-	if (time%3==0) {
+	if (time % 6 == 0) {
 		x_pos = 1280;
-		y_pos = rand()%640;
+		y_pos = rand() % 640;
 		sRocket1.push_back(sRocket(x_pos, y_pos));
 		if (sRocket1.size() > 1) sRocket1.erase(sRocket1.begin() + 1);
 	}

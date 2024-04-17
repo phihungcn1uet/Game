@@ -47,26 +47,35 @@ void Boom::free() {
 		bBox.y = 0;
 	}
 }
-void Boom::boommove(int& a, SDL_Renderer* screen, character& character, bool& quit, const bool& check) {
-	for (int i = 0; i < sBoom1.size(); i++) {
-		sBoom1[i].y += 10;
-		bBox.x = sBoom1[i].x;
-		bBox.y = sBoom1[i].y;
-		SDL_RenderCopy(screen, bTexture, NULL, &bBox);
-		if (sBoom1[i].y > SCREEN_HEIGHT) {
-			sBoom1.erase(sBoom1.begin() + i);
-		}
-		if (check) {
-			if (checkCollision(character.mBox, bBox)) {
-				quit = true;
+void Boom::boommove(SDL_Renderer* screen, character& character, bool& death, const bool& collision, const bool& bullettype, std::vector <Bullet>& bullets) {
+     for (int i = 0; i < sBoom1.size(); i++) {
+			sBoom1[i].y += 10;
+			bBox.x = sBoom1[i].x;
+			bBox.y = sBoom1[i].y;
+			SDL_RenderCopy(screen, bTexture, NULL, &bBox);
+			if (sBoom1[i].y > SCREEN_HEIGHT) {
+				sBoom1.erase(sBoom1.begin() + i);
+			}
+			if (collision) {
+				if (checkCollision(character.mBox, bBox)) {
+					death = true;
+				}
+			}
+			if (!bullettype) {
+				for (int j = 0; j < bullets.size(); j++) {
+					SDL_Rect a = { bullets[j].x,bullets[j].y,128,64 };
+					if (checkCollision(a, bBox)) {
+						sBoom1.erase(sBoom1.begin() + i);
+						bullets.erase(bullets.begin() + j);
+					}
+				}
 			}
 		}
 	}
-}
 
 void Boom::random(const int& a) {
 	int time = a / 1000;
-	if (time % 5 == 0 && time != 0) {
+	if (time % 5 == 0 && time!=0) {
 		x_pos = rand()% 1280;
 		y_pos = 0;
 		sBoom1.push_back(sBoom(x_pos, y_pos));

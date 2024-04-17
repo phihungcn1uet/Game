@@ -8,6 +8,8 @@ Enemy enemy;
 Rocket rocket;
 Boom boom;
 Special special;
+Life life;
+Menu menu;
 bool init()
 {
 	//Initialization flag
@@ -75,12 +77,12 @@ void close()
 	SDL_Quit();
 }
 bool loadbackground() {
-	bool res = background.loadFromFile("img/hello01.jpg",gRenderer);
+	bool res = background.loadFromFile("img/hello01.png",gRenderer);
 	return res;
 }
 
 bool loadfigure() {
-	bool res = figure.loadFromFile("img/maybay.png", gRenderer);
+	bool res = figure.loadFromFile("img/plane.png", gRenderer);
 	return res;
 }
 
@@ -103,6 +105,18 @@ bool loadboom() {
 }
 bool loadspecial() {
 	bool res = special.loadFromFile("img/luckybox.png", gRenderer);
+	return res;
+}
+bool loadfireball() {
+	bool res = figure.loadFromFileFireBall("img/fireball.png", gRenderer);
+	return res;
+}
+bool loadheart() {
+	bool res = life.loadFromFile("img/heart.png", gRenderer);
+	return res;
+}
+bool loadmenu() {
+	bool res = menu.loadFromFile("img/menu.png", gRenderer);
 	return res;
 }
 int main(int argc, char* args[])
@@ -134,13 +148,28 @@ int main(int argc, char* args[])
 		if (!loadboom()) {
 		std::cout << "Can't load boom" << std::endl;
 	    }
+		if (!loadfireball()) {
+			std::cout << "Can't load fire ball" << std::endl;
+		}
 		if (!loadspecial()) {
 			std::cout << "Can't load special" << std::endl;
+		}
+		if (!loadheart()) {
+			std::cout << "can't load heart" << std::endl;
+		}
+		if (!loadmenu()) {
+			std::cout << "can't load menu" << std::endl;
+		}
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+			std::cout << " Can't load audio" << std::endl;
 		}
 		int scrollingOffset =0 ;
 			//Main loop flag
 			bool quit = false;
-			bool check = true;
+			bool collision = true;
+			bool bullettype = true;
+			bool death = false;
+			bool playgame = false;
 			//Event handler
 			SDL_Event e;
 			//While application is running
@@ -156,47 +185,58 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
-					figure.handleEvent(e,gRenderer);
+					if(playgame == true) figure.handleEvent(e,gRenderer);
+					else if (playgame==false) menu.startmenu(e, playgame);
 				}
-				//load background
-				--scrollingOffset;
-				if (scrollingOffset < -1280)
-				{
-					scrollingOffset = 0;
+					//load background
+				if (playgame == false) {
+					menu.render(gRenderer, NULL, 0, 0);
+					//menu.startmenu(e, playgame);
 				}
-				//load background
-				background.render(gRenderer, NULL, scrollingOffset,0);
-				background.render(gRenderer, NULL, scrollingOffset+1280, 0);
-				// di chuyen
-				figure.move(gRenderer,quit);
-				// xu ly dan
-				enemy.random();
-				enemy.enemymove(gRenderer,figure.bullets,quit,figure.character,check);
-				figure.movebullet(gRenderer);
-				int x = SDL_GetTicks64();
-				rocket.random(x);
-				rocket.rocketmove(x, gRenderer,figure.character,quit,check);
-				boom.random(x);
-				boom.boommove(x, gRenderer, figure.character, quit,check);
-				special.randomspecial(x);
-				special.specialappearance(gRenderer, figure.character,check,x);
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderPresent(gRenderer);
-				int real_imp_time = fps_timer.get_ticks();
-				int time_one_frame = 1000 / FRAME_PER_SECOND; // tinh theo mili giay
-
-				if (real_imp_time < time_one_frame) {
-					int delay_time = time_one_frame - real_imp_time;
-					if (delay_time >= 0) {
-						SDL_Delay(delay_time);
+				else if (playgame == true) {
+					--scrollingOffset;
+					if (scrollingOffset < -1280)
+					{
+						scrollingOffset = 0;
 					}
+					int x = SDL_GetTicks64();
+					//load background
+					background.render(gRenderer, NULL, scrollingOffset, 0);
+					background.render(gRenderer, NULL, scrollingOffset + 1280, 0);
+					// di chuyen
+					life.loadlifeani(gRenderer, death, figure.character, special.specialnumlife, x, collision,playgame, figure);
+					figure.move(gRenderer, death);
+					// xu ly dan
+					enemy.random();
+					enemy.enemymove(gRenderer, figure.bullets, death, figure.character, collision);
+					if (bullettype)figure.movebullet(gRenderer);
+					else if (!bullettype) {
+						figure.moveball(gRenderer);
+					}
+					special.randomspecial(x);
+					rocket.random(x);
+					rocket.rocketmove(gRenderer, figure.character, death, collision, bullettype, figure.bullets);
+					boom.random(x);
+					boom.boommove(gRenderer, figure.character, death, collision, bullettype, figure.bullets);
+					special.specialappearance(gRenderer, figure.character, collision, bullettype, x, figure);
 				}
-				SDL_RenderClear(gRenderer);
-			}
-		}
-		//Free resources and close SDL
-		close();
+					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+					SDL_RenderPresent(gRenderer);
+					int real_imp_time = fps_timer.get_ticks();
+					int time_one_frame = 1000 / FRAME_PER_SECOND; // tinh theo mili giay
 
+					if (real_imp_time < time_one_frame) {
+						int delay_time = time_one_frame - real_imp_time;
+						if (delay_time >= 0) {
+							SDL_Delay(delay_time);
+						}
+					}
+					SDL_RenderClear(gRenderer);
+				}
+			}
+			//Free resources and close SDL
+			close();
+	//}
 	return 0;
 }
 

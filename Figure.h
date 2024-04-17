@@ -30,8 +30,10 @@ public:
 	void handleEvent(SDL_Event& e,SDL_Renderer * screen);
 	// Dan ban
 	bool loadFromFileBullet(std::string path, SDL_Renderer* screen);
-	void move(SDL_Renderer* screen,bool &quit);
+	bool loadFromFileFireBall(std::string path, SDL_Renderer* screen);
+	void move(SDL_Renderer* screen,bool & death);
 	void movebullet(SDL_Renderer* screen);
+	void moveball(SDL_Renderer* screen);
 	std::vector<Bullet> bullets;
 	character character;
 	//free
@@ -42,6 +44,8 @@ private:
 	//Dan ban
 	SDL_Texture* mTextureBullet;
 	SDL_Rect rectbullet;
+	SDL_Texture *mTextureFireBall;
+	SDL_Rect rectfireball;
 };
 
 
