@@ -1,9 +1,13 @@
 #include "LibFile.h"
+TextObject text1;
+
 Enemy :: Enemy() {
 	eBox.x = 1280;
 	eBox.y = 64;
 	mTextureEnemy = NULL;
 	eBox = { 0,0,0,0 };
+	text1.SetColor(TextObject::WHITE_TEXT);
+	score = 0;
 }
 Enemy :: ~Enemy() {
 	free();
@@ -64,10 +68,12 @@ void Enemy::enemymove(SDL_Renderer* screen,std :: vector <Bullet>& bullets,bool 
 						if (checkCollision(a, b)) {
 							enemys.erase(enemys.begin() + i);
 							bullets.erase(bullets.begin() + j);
+							score++;
 						}
 						else if (checkCollision(a, c)) {
 							enemys.erase(enemys.begin() + i - 1);
 							bullets.erase(bullets.begin() + j);
+							score++;
 						}
 				}
 			}
@@ -87,7 +93,7 @@ void Enemy::enemymove(SDL_Renderer* screen,std :: vector <Bullet>& bullets,bool 
 
 void Enemy::random() {
 	int x_pos_enemy = 1280;
-	int y_pos_enemy = (rand() % 640);
+	int y_pos_enemy = rand() % (576+1-64)+64;
 	int speed = rand() % (8-4+1) + 4;
 	enemys.push_back(numEnemy(x_pos_enemy, y_pos_enemy, speed));
 	if (enemys.size() > 10) enemys.erase(enemys.begin() + 10);
@@ -141,4 +147,13 @@ void Enemy::free() {
 		eBox.x = 0;
 		eBox.y = 0;
 	}
+}
+
+void Enemy::SetScore(TTF_Font *font,SDL_Renderer *screen) {
+	std::string str_score = "Score:";
+	std::string str_val = std::to_string(score);
+	str_score += str_val;
+	text1.SetText(str_score);
+	text1.loadFromRenderText(font, screen);
+	text1.RenderText(screen, SCREEN_WIDTH - 400, 15);
 }

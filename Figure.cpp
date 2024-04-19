@@ -72,7 +72,7 @@ void Figure::handleEvent(SDL_Event& e,SDL_Renderer *screen) {
 		case SDLK_e:
 		if(bullets.size()<12)
 		bullets.push_back(Bullet(character.mBox.x + character.mBox.w, character.mBox.y +FIGURE_WIDTH/2, 6));
-		soundnormalbullet = Mix_LoadWAV("soundnormalbullet.wav");
+		soundnormalbullet = Mix_LoadWAV("sound/soundnormalbullet.wav");
 		Mix_PlayChannel(-1, soundnormalbullet, 0);
 		break;
 		}

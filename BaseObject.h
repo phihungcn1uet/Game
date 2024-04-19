@@ -9,7 +9,7 @@ public:
 	void SetRect(const int& x, const int& y) {
 		rect_.x = x; rect_.y = y;
 	}
-	SDL_Rect GetRect() const {return rect_;}
+	SDL_Rect GetRect()const {return rect_;}
     SDL_Texture* Getobject() const {return mTexture; }
 	bool loadFromFile(std::string path,SDL_Renderer *screen);
 	void free();

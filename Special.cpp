@@ -55,8 +55,8 @@ void Special::free() {
 void Special::randomspecial(const int &a) {
 	int time = a / 1000;
 	if (time % 10 == 0 && time != 0) {
-		int x_pos = 640;
-		int y_pos = rand()%640;
+		int x_pos = 576;
+		int y_pos = rand()%(576-64+1)+64;
 		specialpos1.push_back(specialpos(x_pos, y_pos));
     }
 	if (specialpos1.size() > 1) specialpos1.erase(specialpos1.begin() + 1);

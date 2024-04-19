@@ -3,6 +3,7 @@
 static SDL_Window* gWindow = NULL;
 static SDL_Renderer* gRenderer = NULL;
 BaseObject background;
+BaseObject pausebuttom;
 Figure figure;
 Enemy enemy;
 Rocket rocket;
@@ -10,6 +11,9 @@ Boom boom;
 Special special;
 Life life;
 Menu menu;
+TTF_Font* font_time = NULL;
+TTF_Font* font_playorexit = NULL;
+
 bool init()
 {
 	//Initialization flag
@@ -57,6 +61,14 @@ bool init()
 					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 					success = false;
 				}
+			}
+			if (TTF_Init() == -1) {
+				success = false;
+			}
+			font_time = TTF_OpenFont("font/OpenSans-Semibold.ttf", 20);
+			font_playorexit = TTF_OpenFont("font/OpenSans-Semibold.ttf", 60);
+			if (font_time != NULL) {
+				success = true;
 			}
 		}
 	}
@@ -119,6 +131,10 @@ bool loadmenu() {
 	bool res = menu.loadFromFile("img/menu.png", gRenderer);
 	return res;
 }
+bool loadpausebuttom() {
+	bool res = pausebuttom.loadFromFile("img/pausegamebuttom.png", gRenderer);
+	return res;
+}
 int main(int argc, char* args[])
 {
 	ImpTimer fps_timer;
@@ -160,6 +176,9 @@ int main(int argc, char* args[])
 		if (!loadmenu()) {
 			std::cout << "can't load menu" << std::endl;
 		}
+		if (!loadpausebuttom()) {
+			std::cout << "Can't load pause buttom" << std::endl;
+		}
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 			std::cout << " Can't load audio" << std::endl;
 		}
@@ -170,6 +189,11 @@ int main(int argc, char* args[])
 			bool bullettype = true;
 			bool death = false;
 			bool playgame = false;
+			bool continuegame = false;
+			bool pausegame = false;
+			//Time and score text
+			TextObject time_game;
+			time_game.SetColor(TextObject::WHITE_TEXT);
 			//Event handler
 			SDL_Event e;
 			//While application is running
@@ -185,14 +209,32 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
-					if(playgame == true) figure.handleEvent(e,gRenderer);
-					else if (playgame==false) menu.startmenu(e, playgame);
+					else if (playgame == true && e.type == SDL_MOUSEBUTTONDOWN ) {
+						int x, y;
+						SDL_GetMouseState(&x, &y);
+						if (x > 1216 && x < 1280 && y>0 && y < 64) {
+							playgame = false;
+							continuegame = true;
+						}
+					}
+					if (playgame == true) figure.handleEvent(e, gRenderer);
+					else if (playgame == false && continuegame ==false) {
+						menu.startmenu(e, playgame,quit,continuegame,font_playorexit, gRenderer);
+					}
+					else if (playgame == false && continuegame == true) {
+						menu.pausemenu(e, playgame, quit, continuegame, font_playorexit, gRenderer);
+					}
 				}
 					//load background
-				if (playgame == false) {
+				if (playgame == false && continuegame == false) {
 					menu.render(gRenderer, NULL, 0, 0);
-					//menu.startmenu(e, playgame);
+					menu.startmenu(e, playgame,quit,continuegame,font_playorexit, gRenderer);
 				}
+				else if (playgame == false && continuegame == true) {
+					menu.render(gRenderer, NULL, 0, 0);
+					menu.pausemenu(e, playgame, quit, continuegame, font_playorexit, gRenderer);
+				}
+				
 				else if (playgame == true) {
 					--scrollingOffset;
 					if (scrollingOffset < -1280)
@@ -203,12 +245,14 @@ int main(int argc, char* args[])
 					//load background
 					background.render(gRenderer, NULL, scrollingOffset, 0);
 					background.render(gRenderer, NULL, scrollingOffset + 1280, 0);
+					pausebuttom.render(gRenderer, NULL, 1216, 0);
 					// di chuyen
 					life.loadlifeani(gRenderer, death, figure.character, special.specialnumlife, x, collision,playgame, figure);
 					figure.move(gRenderer, death);
 					// xu ly dan
 					enemy.random();
 					enemy.enemymove(gRenderer, figure.bullets, death, figure.character, collision);
+					enemy.SetScore(font_time, gRenderer);
 					if (bullettype)figure.movebullet(gRenderer);
 					else if (!bullettype) {
 						figure.moveball(gRenderer);
@@ -219,6 +263,14 @@ int main(int argc, char* args[])
 					boom.random(x);
 					boom.boommove(gRenderer, figure.character, death, collision, bullettype, figure.bullets);
 					special.specialappearance(gRenderer, figure.character, collision, bullettype, x, figure);
+					//Show game time
+					std::string str_time = "Time: ";
+					Uint32 time_val = SDL_GetTicks64() / 1000;
+					std::string str_val = std::to_string(time_val);
+					str_time += str_val;
+					time_game.SetText(str_time);
+					time_game.loadFromRenderText(font_time, gRenderer);
+					time_game.RenderText(gRenderer, SCREEN_WIDTH - 200, 15);
 				}
 					SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 					SDL_RenderPresent(gRenderer);

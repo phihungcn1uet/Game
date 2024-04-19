@@ -14,9 +14,10 @@ public:
 	void random();
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 	void free();
-
+	void SetScore(TTF_Font* font, SDL_Renderer* screen);
 private:
 	SDL_Texture* mTextureEnemy;
 	std::vector <numEnemy> enemys;
 	SDL_Rect eBox;
+	long long score;
 };

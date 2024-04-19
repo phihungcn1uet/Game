@@ -49,7 +49,7 @@ void Rocket::free() {
 }
 void Rocket :: rocketmove(SDL_Renderer *screen,character &character,bool & death,const bool& collision,const bool&bullettype, std::vector <Bullet>& bullets) {
 		for (int i = 0; i < sRocket1.size(); i++) {
-			soundrocket = Mix_LoadWAV("soundrocket.wav");
+			soundrocket = Mix_LoadWAV("sound/soundrocket.wav");
 			Mix_PlayChannel(-1, soundrocket, 0);
 
 			sRocket1[i].x -= Rocketvel;
