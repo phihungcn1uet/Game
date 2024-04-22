@@ -49,13 +49,12 @@ void Rocket::free() {
 }
 void Rocket :: rocketmove(SDL_Renderer *screen,character &character,bool & death,const bool& collision,const bool&bullettype, std::vector <Bullet>& bullets) {
 		for (int i = 0; i < sRocket1.size(); i++) {
-			soundrocket = Mix_LoadWAV("sound/soundrocket.wav");
-			Mix_PlayChannel(-1, soundrocket, 0);
-
 			sRocket1[i].x -= Rocketvel;
 			rBox.x = sRocket1[i].x;
 			rBox.y = sRocket1[i].y;
 			SDL_RenderCopy(screen, rTexture, NULL, &rBox);
+			soundrocket = Mix_LoadWAV("sound/soundrocket.wav");
+			Mix_PlayChannel(-1, soundrocket, 0);
 			if (sRocket1[i].x < 0) {
 				sRocket1.erase(sRocket1.begin() + i);
 			}
@@ -80,11 +79,11 @@ void Rocket :: rocketmove(SDL_Renderer *screen,character &character,bool & death
 void Rocket::random(const int& a) {
 	//std::cout << a/1000 << std::endl;
 	int time = a / 1000;
-	if (time % 6 == 0) {
-		x_pos = 1280;
-		y_pos = rand() % 640;
-		sRocket1.push_back(sRocket(x_pos, y_pos));
-		if (sRocket1.size() > 1) sRocket1.erase(sRocket1.begin() + 1);
+	if (time % 7 == 0 && time!=0) {
+			x_pos = 1280;
+			y_pos = rand() % 640;
+			sRocket1.push_back(sRocket(x_pos, y_pos));
+			if (sRocket1.size() > 1) sRocket1.erase(sRocket1.begin() + 1);
 	}
 }
 

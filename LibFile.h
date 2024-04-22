@@ -36,4 +36,6 @@ static const int FIGURE_HEIGHT = 64;
 
 static Mix_Chunk* soundnormalbullet;
 static Mix_Chunk* soundrocket;
+static Mix_Chunk* soundboom;
+static Mix_Chunk* soundspecial;
 #endif // !LIB_FILE_H

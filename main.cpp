@@ -88,6 +88,17 @@ void close()
 	IMG_Quit();
 	SDL_Quit();
 }
+
+void ResetGame() {
+	enemy.enemys.clear();
+	rocket.sRocket1.clear();
+	boom.sBoom1.clear();
+	enemy.score = 0;
+	life.animationlife1.push_back(animationlife(0, 0));
+	life.animationlife1.push_back(animationlife(32, 0));
+	life.animationlife1.push_back(animationlife(64, 0));
+	life.animationlife1.push_back(animationlife(96, 0));
+}
 bool loadbackground() {
 	bool res = background.loadFromFile("img/hello01.png",gRenderer);
 	return res;
@@ -124,7 +135,7 @@ bool loadfireball() {
 	return res;
 }
 bool loadheart() {
-	bool res = life.loadFromFile("img/heart.png", gRenderer);
+	bool res = life.loadFromFileLife("img/heart.png", gRenderer);
 	return res;
 }
 bool loadmenu() {
@@ -189,8 +200,8 @@ int main(int argc, char* args[])
 			bool bullettype = true;
 			bool death = false;
 			bool playgame = false;
-			bool continuegame = false;
 			bool pausegame = false;
+			bool secondplay = false;
 			//Time and score text
 			TextObject time_game;
 			time_game.SetColor(TextObject::WHITE_TEXT);
@@ -209,46 +220,58 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
+					// nut dung tro choi
 					else if (playgame == true && e.type == SDL_MOUSEBUTTONDOWN ) {
 						int x, y;
 						SDL_GetMouseState(&x, &y);
 						if (x > 1216 && x < 1280 && y>0 && y < 64) {
 							playgame = false;
-							continuegame = true;
+							pausegame = true;
 						}
 					}
-					if (playgame == true) figure.handleEvent(e, gRenderer);
-					else if (playgame == false && continuegame ==false) {
-						menu.startmenu(e, playgame,quit,continuegame,font_playorexit, gRenderer);
+					if (playgame == true && pausegame ==false) figure.handleEvent(e, gRenderer);
+					//khi lan dau vao game
+					if (playgame == false && secondplay == false && pausegame==false) {
+						menu.startmenu(e, playgame, quit, secondplay, font_playorexit, gRenderer, ResetGame);
 					}
-					else if (playgame == false && continuegame == true) {
-						menu.pausemenu(e, playgame, quit, continuegame, font_playorexit, gRenderer);
+					// khi da chet het 3 mang va luot choi tiep theo
+					else if (playgame == false &&secondplay == true && pausegame==false) {
+						 menu.startmenu(e, playgame,quit, secondplay,font_playorexit, gRenderer, ResetGame);	
+					}
+					// khi tam dung game
+					else if (playgame == false && pausegame == true) {
+						menu.pausemenu(e, playgame,pausegame, quit, font_playorexit, gRenderer);
 					}
 				}
-					//load background
-				if (playgame == false && continuegame == false) {
+				//khi lan dau vao game
+				if (playgame == false && secondplay == false && pausegame == false) {
 					menu.render(gRenderer, NULL, 0, 0);
-					menu.startmenu(e, playgame,quit,continuegame,font_playorexit, gRenderer);
+					menu.startmenu(e, playgame, quit, secondplay, font_playorexit, gRenderer, ResetGame);
 				}
-				else if (playgame == false && continuegame == true) {
+				// khi da chet het 3 mang va luot choi tiep theo
+				else if (playgame == false && secondplay == true && pausegame == false) {
+						menu.render(gRenderer, NULL, 0, 0);
+						menu.startmenu(e, playgame, quit, secondplay, font_playorexit, gRenderer, ResetGame);
+				}
+				// khi tam dung game
+				else if (playgame == false && pausegame == true) {
 					menu.render(gRenderer, NULL, 0, 0);
-					menu.pausemenu(e, playgame, quit, continuegame, font_playorexit, gRenderer);
-				}
-				
-				else if (playgame == true) {
+					menu.pausemenu(e, playgame,pausegame, quit, font_playorexit, gRenderer);
+				}	
+				else if (playgame == true && pausegame == false) {
 					--scrollingOffset;
 					if (scrollingOffset < -1280)
 					{
 						scrollingOffset = 0;
 					}
-					int x = SDL_GetTicks64();
+					int x = int(SDL_GetTicks64());
 					//load background
 					background.render(gRenderer, NULL, scrollingOffset, 0);
 					background.render(gRenderer, NULL, scrollingOffset + 1280, 0);
 					pausebuttom.render(gRenderer, NULL, 1216, 0);
 					// di chuyen
-					life.loadlifeani(gRenderer, death, figure.character, special.specialnumlife, x, collision,playgame, figure);
-					figure.move(gRenderer, death);
+					life.loadlifeani(gRenderer, death,secondplay, figure.character, special.specialnumlife, x, collision,playgame, figure);
+					figure.move(gRenderer);
 					// xu ly dan
 					enemy.random();
 					enemy.enemymove(gRenderer, figure.bullets, death, figure.character, collision);

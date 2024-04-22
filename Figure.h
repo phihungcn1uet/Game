@@ -31,7 +31,7 @@ public:
 	// Dan ban
 	bool loadFromFileBullet(std::string path, SDL_Renderer* screen);
 	bool loadFromFileFireBall(std::string path, SDL_Renderer* screen);
-	void move(SDL_Renderer* screen,bool & death);
+	void move(SDL_Renderer* screen);
 	void movebullet(SDL_Renderer* screen);
 	void moveball(SDL_Renderer* screen);
 	std::vector<Bullet> bullets;

@@ -12,10 +12,10 @@ public:
 	void free();
 	void boommove(SDL_Renderer* screen, character& character, bool& death, const bool& collision, const bool& bullettype, std::vector <Bullet>& bullets);
 	void random(const int& a);
+	std::vector <sBoom> sBoom1;
 private:
 	SDL_Texture* bTexture;
 	SDL_Rect bBox;
 	int x_pos;
 	int y_pos;
-	std::vector <sBoom> sBoom1;
 };

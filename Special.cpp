@@ -54,7 +54,7 @@ void Special::free() {
 }
 void Special::randomspecial(const int &a) {
 	int time = a / 1000;
-	if (time % 10 == 0 && time != 0) {
+	if (time % 15 == 0 && time != 0) {
 		int x_pos = 576;
 		int y_pos = rand()%(576-64+1)+64;
 		specialpos1.push_back(specialpos(x_pos, y_pos));
@@ -68,6 +68,8 @@ void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool
 			sBox.y = specialpos1[i].y;
 			SDL_RenderCopy(screen, special, NULL, &sBox);
 			if (checkCollision(chacracter.mBox, sBox)) {
+				soundspecial = Mix_LoadWAV("sound/soundspecialbox.wav");
+				Mix_PlayChannel(-1, soundspecial, 0);
 				if (x == 0) {
 					figure.loadFromFile("img/shieldplane.png", screen);
 					collision = false;

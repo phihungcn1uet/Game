@@ -9,7 +9,7 @@ Menu::~Menu() {
 
 }
 
-void Menu::startmenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegame, TTF_Font* font, SDL_Renderer* screen) {
+void Menu::startmenu(SDL_Event& e, bool& playgame, bool& quit, bool& secondplay, TTF_Font* font, SDL_Renderer* screen, void Resetgame()) {
 	SDL_Rect GetTextPos[2];
 	textstartmenu[0].SetText("Play Game");
 	textstartmenu[0].loadFromRenderText(font, screen);
@@ -40,7 +40,9 @@ void Menu::startmenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegam
 			SDL_GetMouseState(&a, &b);
 			if (a > 250 && a < 570 && b>480 && b < 550) {
 				playgame = true;
-				continuegame = true;
+				if (secondplay == true) {
+					Resetgame();
+				}	
 			}
 			else if (a > 250 && a < 370 && b>550 && b < 620) {
 				quit=true;
@@ -50,18 +52,10 @@ void Menu::startmenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegam
 			break;
 		}
 		
-
 }
 
-bool Menu::checkFocus(const int &x, const int &y, SDL_Rect& rect) {
-	if (x >= rect.x && x <= rect.x + rect.w &&
-		y >= rect.y && y <= rect.y + rect.h) {
-		return true;
-	}
-	return false;
-}
 
-void Menu::pausemenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegame, TTF_Font* font, SDL_Renderer* screen) {
+void Menu::pausemenu(SDL_Event& e, bool &playgame, bool& pausegame, bool& quit, TTF_Font* font, SDL_Renderer* screen) {
 	SDL_Rect GetTextPos[2];
 
 	textpausemenu[0].SetText("Play Again");
@@ -91,8 +85,8 @@ void Menu::pausemenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegam
 			int a, b;
 			SDL_GetMouseState(&a, &b);
 			if (a > 250 && a < 570 && b>480 && b < 550) {
-				continuegame = true;
 				playgame = true;
+				pausegame = false;
 			}
 			else if (a > 250 && a < 370 && b>550 && b < 620) {
 				quit = true;
@@ -101,4 +95,13 @@ void Menu::pausemenu(SDL_Event& e, bool& playgame, bool& quit, bool& continuegam
 		default:
 			break;
 		}
+}
+
+
+bool Menu::checkFocus(const int& x, const int& y, SDL_Rect& rect) {
+	if (x >= rect.x && x <= rect.x + rect.w &&
+		y >= rect.y && y <= rect.y + rect.h) {
+		return true;
+	}
+	return false;
 }

@@ -53,6 +53,8 @@ void Boom::boommove(SDL_Renderer* screen, character& character, bool& death, con
 			bBox.x = sBoom1[i].x;
 			bBox.y = sBoom1[i].y;
 			SDL_RenderCopy(screen, bTexture, NULL, &bBox);
+			soundboom = Mix_LoadWAV("sound/soundfallingboom.wav");
+			Mix_PlayChannel(-1, soundboom, 0);
 			if (sBoom1[i].y > SCREEN_HEIGHT) {
 				sBoom1.erase(sBoom1.begin() + i);
 			}
@@ -75,11 +77,11 @@ void Boom::boommove(SDL_Renderer* screen, character& character, bool& death, con
 
 void Boom::random(const int& a) {
 	int time = a / 1000;
-	if (time % 5 == 0 && time!=0) {
-		x_pos = rand()% 1280;
-		y_pos = 0;
-		sBoom1.push_back(sBoom(x_pos, y_pos));
-		if (sBoom1.size() > 1) sBoom1.erase(sBoom1.begin() + 1);
+	if (time % 9 == 0 && time!=0 ) {
+			x_pos = rand() % 1280;
+			y_pos = 0;
+			sBoom1.push_back(sBoom(x_pos, y_pos));
+			if (sBoom1.size() > 1) sBoom1.erase(sBoom1.begin() + 1);
 	}
 }
 

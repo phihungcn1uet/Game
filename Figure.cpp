@@ -42,7 +42,7 @@ bool Figure::loadFromFile(std::string path, SDL_Renderer* screen) {
 	return mTexture != NULL;
 }
 
-void Figure::move(SDL_Renderer* screen,bool & death) {
+void Figure::move(SDL_Renderer* screen) {
 	character.mBox.x += character.velocityX;
 	character.mBox.y += character.velocityY;
 	if (character.mBox.x < 0) {

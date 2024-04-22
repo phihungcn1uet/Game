@@ -13,10 +13,10 @@ public:
 	void free();
 	void rocketmove(SDL_Renderer* screen, character& character, bool& death, const bool& collision,const bool& bullettype, std::vector <Bullet>& bullets);
 	void random(const int& a);
+	std::vector <sRocket> sRocket1;
 private:
 	SDL_Texture* rTexture;
 	SDL_Rect rBox;
 	int x_pos;
 	int y_pos;
-	std :: vector <sRocket> sRocket1;
 };
