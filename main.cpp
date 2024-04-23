@@ -91,9 +91,13 @@ void close()
 
 void ResetGame() {
 	enemy.enemys.clear();
+	enemy.boss1.clear();
 	rocket.sRocket1.clear();
 	boom.sBoom1.clear();
 	enemy.score = 0;
+	figure.bullets.clear();
+	enemy.boss1.clear();
+	enemy.skill1.clear();
 	life.animationlife1.push_back(animationlife(0, 0));
 	life.animationlife1.push_back(animationlife(32, 0));
 	life.animationlife1.push_back(animationlife(64, 0));
@@ -116,6 +120,10 @@ bool loadbullet() {
 
 bool loadenemy() {
 	bool res = enemy.loadFromFileEnemy("img/nv.png", gRenderer);
+	return res;
+}
+bool loadboss() {
+	bool res = enemy.loadFromFileBoss("img/boss.png", gRenderer);
 	return res;
 }
 bool loadrocket() {
@@ -168,6 +176,9 @@ int main(int argc, char* args[])
 		}
 		if (!loadenemy()) {
 			std::cout << "Can't load enemy" << std::endl;
+		}
+		if (!loadboss()) {
+			std::cout << "Can't load boss" << std::endl;
 		}
 		if (!loadrocket()) {
 			std::cout << "Can't load rocket" << std::endl;
@@ -264,7 +275,8 @@ int main(int argc, char* args[])
 					{
 						scrollingOffset = 0;
 					}
-					int x = int(SDL_GetTicks64());
+				    int x = int(SDL_GetTicks64());
+					//std::cout << x << std::endl;
 					//load background
 					background.render(gRenderer, NULL, scrollingOffset, 0);
 					background.render(gRenderer, NULL, scrollingOffset + 1280, 0);
@@ -272,19 +284,27 @@ int main(int argc, char* args[])
 					// di chuyen
 					life.loadlifeani(gRenderer, death,secondplay, figure.character, special.specialnumlife, x, collision,playgame, figure);
 					figure.move(gRenderer);
-					// xu ly dan
+					// xu ly dan va nv dich
 					enemy.random();
 					enemy.enemymove(gRenderer, figure.bullets, death, figure.character, collision);
 					enemy.SetScore(font_time, gRenderer);
+					// xu ly boss
+					enemy.timerandomboss(x);
+					enemy.bossmove(gRenderer, figure.bullets, death, figure.character, collision,x,font_time);
+
 					if (bullettype)figure.movebullet(gRenderer);
 					else if (!bullettype) {
 						figure.moveball(gRenderer);
 					}
-					special.randomspecial(x);
+					
+					// xu ly ten lua
 					rocket.random(x);
 					rocket.rocketmove(gRenderer, figure.character, death, collision, bullettype, figure.bullets);
+					//xu ly bom
 					boom.random(x);
 					boom.boommove(gRenderer, figure.character, death, collision, bullettype, figure.bullets);
+					//hieu ung dac biet
+					special.randomspecial(x);
 					special.specialappearance(gRenderer, figure.character, collision, bullettype, x, figure);
 					//Show game time
 					std::string str_time = "Time: ";

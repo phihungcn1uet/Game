@@ -1,5 +1,4 @@
-﻿  Boom.cpp
-  Rocket.cpp
-  Special.cpp
-  Generating Code...
+﻿  main.cpp
+D:\game\Game\main.cpp(160,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\game\Game\main.cpp(311,22): warning C4244: 'initializing': conversion from 'Uint64' to 'Uint32', possible loss of data
   Game.vcxproj -> D:\game\x64\Debug\Game.exe

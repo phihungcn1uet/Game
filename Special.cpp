@@ -54,12 +54,15 @@ void Special::free() {
 }
 void Special::randomspecial(const int &a) {
 	int time = a / 1000;
-	if (time % 15 == 0 && time != 0) {
-		int x_pos = 576;
-		int y_pos = rand()%(576-64+1)+64;
-		specialpos1.push_back(specialpos(x_pos, y_pos));
-    }
-	if (specialpos1.size() > 1) specialpos1.erase(specialpos1.begin() + 1);
+	int du = a % 1000;
+	if (du < 30) {
+		if (time % 15 == 0 && time != 0) {
+			int x_pos = 576;
+			int y_pos = rand() % (576 - 64 + 1) + 64;
+			specialpos1.push_back(specialpos(x_pos, y_pos));
+		}
+		if (specialpos1.size() > 1) specialpos1.erase(specialpos1.begin() + 1);
+	}
 }
 void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool& collision,bool &bullettype, const int &a,Figure &figure) {
 	int x = rand() % 3;
@@ -70,6 +73,7 @@ void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool
 			if (checkCollision(chacracter.mBox, sBox)) {
 				soundspecial = Mix_LoadWAV("sound/soundspecialbox.wav");
 				Mix_PlayChannel(-1, soundspecial, 0);
+				//khien chan
 				if (x == 0) {
 					figure.loadFromFile("img/shieldplane.png", screen);
 					collision = false;
@@ -77,11 +81,13 @@ void Special::specialappearance(SDL_Renderer* screen,character &chacracter, bool
 					time1 = a / 1000;
 					//std::cout << time1 << std::endl;
 				}
+				//vien dan dac biet
 				else if (x == 1) {
 					bullettype = false;
 					specialpos1.erase(specialpos1.begin() + i);
 					time1 = a / 1000;
 				}
+				// them 1 tim
 				else if (x == 2) {
 					specialnumlife = 1;
 					specialpos1.erase(specialpos1.begin() + i);

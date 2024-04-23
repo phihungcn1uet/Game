@@ -42,7 +42,7 @@ void Menu::startmenu(SDL_Event& e, bool& playgame, bool& quit, bool& secondplay,
 				playgame = true;
 				if (secondplay == true) {
 					Resetgame();
-				}	
+				}
 			}
 			else if (a > 250 && a < 370 && b>550 && b < 620) {
 				quit=true;
