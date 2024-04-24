@@ -1,4 +1,17 @@
-﻿  main.cpp
-D:\game\Game\main.cpp(160,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\game\Game\main.cpp(311,22): warning C4244: 'initializing': conversion from 'Uint64' to 'Uint32', possible loss of data
+﻿  BaseObject.cpp
+  Boom.cpp
+  Figure.cpp
+  LibFile.cpp
+  Life.cpp
+D:\game\Game\Life.cpp(49,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+D:\game\Game\main.cpp(180,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\game\Game\main.cpp(314,14): warning C4244: '-=': conversion from '__int64' to 'int', possible loss of data
+  enemy.cpp
+  Menu.cpp
+  Rocket.cpp
+  Special.cpp
+  TextObject.cpp
+  time.cpp
+  Generating Code...
   Game.vcxproj -> D:\game\x64\Debug\Game.exe
