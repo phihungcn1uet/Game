@@ -5,6 +5,27 @@ Video chơi game:
 # Giới thiêu game
 Fly simulator là một shooter game trong đó người chơi điều khiển máy bay chiến đấu trên bầu trời nhằm tiêu diệt các kẻ địch và né tránh các vật thể nguy hiểm.
 # 1.Cách tải game
+## a.Cách tải không bao gồm code
+Link tải: <https://github.com/phihungcn1uet/mineeeee/releases/tag/flysimulator>. 
+Sau đó giải nén và mở Game.exe lên chơi
+## b.Cách tải bao gồm code
+Clone repo này về
+![Screenshot (146)](https://github.com/phihungcn1uet/Game/assets/161928550/32c8f430-d96c-4bbc-9e70-ace53e772899)
+Tất cả code sẽ nằm trong thư mục Source code. 
+Vì mã nguồn được viết trên Visual studio nên cần cài Visual Studio và các thư viện SDL. \
+Cài Visual Studio: https://visualstudio.microsoft.com/fr/
+ \
+Hướng dẫn thiết lập SDL trên Visual studio: \
+<https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php>. \
+ \
+Hướng dẫn thiết lập SDL_image trên Visual studio: <https://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/windows/msvc2019/index.php>. 
+|Tên thư viện| Link tải|
+|------------|---------------|
+|SDL|https://github.com/libsdl-org/SDL/releases|
+|SDL_image |https://github.com/libsdl-org/SDL_image/releases|
+|SDL_ttf|https://github.com/libsdl-org/SDL_mixer/releases|
+|SDL_mixer|https://github.com/libsdl-org/SDL_ttf/releases|
+
 # 2.Bắt đầu game
 Click vào nút PlayGame để bắt đầu trò chơi hoặc nút Exit để thoát game.
 ![Screenshot 2024-04-25 212250](https://github.com/phihungcn1uet/Game/assets/161928550/fffd595a-d36b-4e86-be03-92d642f0cd75)
