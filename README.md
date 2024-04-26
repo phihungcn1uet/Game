@@ -4,6 +4,18 @@
 Video chơi game:
 # Giới thiêu game
 Fly simulator là một shooter game trong đó người chơi điều khiển máy bay chiến đấu trên bầu trời nhằm tiêu diệt các kẻ địch và né tránh các vật thể nguy hiểm.
+# 0. Mục Lục
+1. [Cách tải game](#1cách-tải-game)
+   - [Cách tải không bao gồm code](#a-cách-tải-không-bao-gồm-code)
+   - [Cách tải bao gồm code](#b-cách-tải-bao-gồm-code)
+2. [Bắt đầu game](#2bắt-đầu-game)
+3. [Các thành phần trong game](#3các-thành-phần-trong-game)
+   - [a. Nhân vật và các thành phần liên quan đến nhân vật](#a-nhân-vật-và-các-thành-phần-liên-quan-đến-nhân-vật)
+   - [b. Kẻ địch và các mối hiểm họa](#b-kẻ-địch-và-các-mối-hiểm-họa)
+   - [c. Các hiệu ứng hỗ trợ nhân vật](#c-các-hiệu-ứng-hỗ-trợ-nhân-vật)
+   - [d. Một số thành phần khác của game](#d-một-số-thành-phần-khác-của-game)
+4. [Cách chơi game](#cách-chơi-game)
+5. [Về Source Code](#về-source-code)
 # 1.Cách tải game
 ## a.Cách tải không bao gồm code
 Link tải: <https://github.com/phihungcn1uet/mineeeee/releases/tag/flysimulator>. 
@@ -37,7 +49,7 @@ Có thể chọn tiếp tục chơi game(Play Game) hoặc thoát(Exit) sau đó
 Trong game cũng có màn hình tạm dừng khi ta nhấn nút ![pausegamebuttom](https://github.com/phihungcn1uet/Game/assets/161928550/e9355f96-72b5-4e9e-8b3d-61e7d227719f).Màn hình tạm dừng hiện ra như sau:
 ![Screenshot (145)](https://github.com/phihungcn1uet/Game/assets/161928550/93b88958-7d3b-4cd6-9907-e636a5e860ae)
 
-# 3.Các thành phần trong game.
+# 3.Các thành phần trong game
 ## a. Nhân vật và các thành phần liên quan đến nhân vật.
 ### Nhân vật chính.
 Nhân vật chính sẽ là ![plane](https://github.com/phihungcn1uet/Game/assets/161928550/1da6a8f3-df46-472d-9a5d-1286fbb2b2f9) với khả năng bắn đạn.
@@ -81,7 +93,7 @@ sẽ xuất hiện sau mỗi 50s của trò chơi. Boss sẽ thả ra một qu�
   
   Đây là endless game đề cao tính giải trí trong khi chơi game.Trò chơi sẽ kết thúc khi số mạng(số tim) ![heart](https://github.com/phihungcn1uet/Game/assets/161928550/e317ee6b-2a29-4264-a2ee-9b6c3655c27e)
   về không. Hãy cố gắng đừng để bị tiêu diệt trong khi tận hưởng và giành lấy số điểm thật cao!
-  # Về Source Code.
+  # Về Source Code
   |STT |Tên File(cả .h và .cpp) |Chức năng | Nguồn tham khảo(nếu có)|
   |----|-----------|----------|------------------------|
   |1| LibFile| File này dùng để khia báo các thư viện khác và cài đặt một số biến cơ bản||
