@@ -1,7 +1,7 @@
 
 # Fly simulater
 
-Video chơi game:
+Video chơi game: <https://www.youtube.com/watch?v=Ng_eWuuzPsM&ab_channel=H%C3%B9ngNguy%E1%BB%85n>.
 # Giới thiêu game
 Fly simulator là một shooter game trong đó người chơi điều khiển máy bay chiến đấu trên bầu trời nhằm tiêu diệt các kẻ địch và né tránh các vật thể nguy hiểm.
 # 0. Mục Lục
@@ -107,6 +107,24 @@ sẽ xuất hiện sau mỗi 50s của trò chơi. Boss sẽ thả ra một qu�
   |9| time | File này xử lý fps| <https://www.youtube.com/watch?v=qhqtxum_uA0&list=PLR7NDiX0QsfTIEQUeYCfc2MyCquX0ig9V&index=8&ab_channel=Ph%C3%A1tTri%E1%BB%83nPh%E1%BA%A7nM%E1%BB%81m123A-Z>|
   |10| Menu | File này xử lý menu||
   |11| Special| File này xử lý các hiệu ứng đặc biệt||
+  |12| main| Nơi khai báo tất cả các class, vòng lặp chính game, các biến logic game, Reset Game||
+  # Lời kết
+  Người thực hiện: \
+  -**Nguyễn Phi Hùng** \
+  -**MSV:23020077** \
+  -**K68-CC/INT 2215 50** \
+  Cảm ơn sự giúp đỡ hướng dẫn của các thầy:
+- **Thầy Lê Đức Trọng**
+- **Thầy Trần Trường Thủy**
+
+Qua dự án lần này, em rút ra được những kinh nghiệm quý báu cho bản thân:
+
+- Cách làm một project hoàn chỉnh.
+- Cách sử dụng thư viện đồ họa SDL.
+- Cách quản lý mã nguồn trên GitHub.
+
+  
+  
 
   
 
