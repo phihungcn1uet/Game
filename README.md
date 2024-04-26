@@ -6,14 +6,14 @@ Video chơi game:
 Fly simulator là một shooter game trong đó người chơi điều khiển máy bay chiến đấu trên bầu trời nhằm tiêu diệt các kẻ địch và né tránh các vật thể nguy hiểm.
 # 1.Cách tải game
 # 2.Bắt đầu game
-Click vào nút PlayGame để bắt đầu trò chơi hoặc nhấn vào nut Exit để thoát game.
+Click vào nút PlayGame để bắt đầu trò chơi hoặc nút Exit để thoát game.
 ![Screenshot 2024-04-25 212250](https://github.com/phihungcn1uet/Game/assets/161928550/fffd595a-d36b-4e86-be03-92d642f0cd75)
 Click vào How to play để xem tóm tắt cách chơi của game.
 ![Screenshot 2024-04-26 084554](https://github.com/phihungcn1uet/Game/assets/161928550/cdd9dec7-b49b-493f-8802-52e1de64a153)
 Màn hình hướng dẫn chơi game hiện ra.
 ![Screenshot 2024-04-26 084630](https://github.com/phihungcn1uet/Game/assets/161928550/dccc8425-9f8e-4f8e-b5a2-3de64dc59976)
 Có thể chọn tiếp tục chơi game(Play Game) hoặc thoát(Exit) sau đó.
-Trong game cũng có mạn hình dừng khi ta nhấn nút ![pausegamebuttom](https://github.com/phihungcn1uet/Game/assets/161928550/e9355f96-72b5-4e9e-8b3d-61e7d227719f).Màn hình tạm dừng hiện ra như sau:
+Trong game cũng có màn hình tạm dừng khi ta nhấn nút ![pausegamebuttom](https://github.com/phihungcn1uet/Game/assets/161928550/e9355f96-72b5-4e9e-8b3d-61e7d227719f).Màn hình tạm dừng hiện ra như sau:
 ![Screenshot (145)](https://github.com/phihungcn1uet/Game/assets/161928550/93b88958-7d3b-4cd6-9907-e636a5e860ae)
 
 # 3.Các thành phần trong game.
